@@ -29,7 +29,9 @@ class BinaryTreeNode {
 
   /** maxDepth(): return the maximum depth from the invoking node -- that is,
    * the length of the longest path from the invoking node to a leaf. */
-  maxDepth() {
+
+  maxDepthNonRecursion() {
+    // TODO: Come back we're off by 1
     let maxDepth = 0;
     let depth = 0;
 
@@ -42,10 +44,29 @@ class BinaryTreeNode {
       if (current.left) seen.push(current.left);
       if (current.right) seen.push(current.right);
       maxDepth = Math.max(maxDepth, depth);
-      if (!current.left && !current.right) depth--;
+      if (!current.left && !current.right) depth++;
     }
 
     return maxDepth;
+  }
+
+  // DFS w/ recursion
+
+  maxDepth() {
+
+    // base case
+    if(!this.left && !this.right) {
+      return 1;
+    }
+
+    // check the left branch
+    let leftDepth = this.left ? this.left.maxDepth() : 0;
+
+    // check the right branch
+    let rightDepth = this.right ? this.right.maxDepth() : 0;
+
+    // we are not counting the node we are currently at, so we add 1
+    return Math.max(leftDepth, rightDepth) + 1;
   }
 
   /** minDepth(): return the minimum depth from the invoking node -- that is,
